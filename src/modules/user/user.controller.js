@@ -3,7 +3,7 @@ import { sendEmail } from "../../services/sendEmail.js";
 import { AppError } from "../../utils/classError.js";
 import { asyncHandler } from "../../utils/globalErrorHandling.js";
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import  bcrypt  from 'bcryptjs'
 import { customAlphabet } from "nanoid";
 
 
