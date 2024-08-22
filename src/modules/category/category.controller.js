@@ -101,7 +101,7 @@ export const getCategory = asyncHandler(async (req, res, next) => {
     //     list.push(newCategory)
         
     // }
-    return res.status(201).json({ msg: 'done', categories:list });
+    return res.status(201).json({ msg: 'done', list: categories });
 });
 
 //===============================delete category===========================//
