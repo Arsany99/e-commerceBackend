@@ -116,3 +116,6 @@ export const signIn = asyncHandler(async (req, res, next) => {
     await userModel.updateOne({email}, {loggedIn:true})
     res.status(200).json({ msg: 'done'  , token});
 });
+
+
+

@@ -6,7 +6,7 @@ import { createcopounVlidator, updatecopounVlidator } from './copoun.validator.j
 import { systemRole } from '../../utils/systemRoles.js';
 const router = express.Router();
 
-router.get('/',auth(['admin']) , getCopoun)
+router.get('/',auth([systemRole.admin]) , getCopoun)
 router.post('/createcopoun',validation(createcopounVlidator),auth([systemRole.admin]) , createCopoun )
 router.put('/updatecopoun/:id',validation(updatecopounVlidator),auth([systemRole.admin]) , updateCopoun)
 router.delete('/:id',auth([systemRole.admin]) , deleteCopoun)

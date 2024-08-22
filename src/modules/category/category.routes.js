@@ -11,7 +11,7 @@ const router = express.Router();
 router.use("/:categoryId/subCategory" , subCategoryRouter)
 router.post('/createCategory',multerHost(validExtension.image).single('image'),validation(createCategoryVlidator),auth([systemRole.admin]) , createCategory)
 router.put('/updateCategory/:id',multerHost(validExtension.image).single('image'),validation(updateCategoryVlidator),auth([systemRole.admin]) , updateCategory)
-router.get('/',auth([systemRole.admin, systemRole.user]) , getCategory)
+router.get('/', getCategory)
 router.delete('/:id',auth([systemRole.admin, systemRole.user]) , dleteCategory)
 
 

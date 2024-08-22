@@ -6,6 +6,8 @@ import copounModel from "../../../db/copoun.model.js";
 import cartModel from "../../../db/cart.model.js";
 import { createInvoice } from "../../utils/pdf.js";
 import { sendEmail } from "../../services/sendEmail.js";
+import { payment } from "../../utils/payment.js";
+import Stripe from "stripe";
 
 
 
@@ -104,6 +106,49 @@ export const createorder = asyncHandler(async (req, res, next) => {
         path:"route.jpg",
         contentType:"image/jpg"
     }])
+
+    if (paymentMethod=='card') {
+        const stripe = new Stripe(process.env.stripe_secret);
+        if (req.body?.copoun) {
+            const copoun = await stripe.coupons.create({
+                percent_off:req.body.copoun.amount,
+                duration:"once"
+            })
+            req.body.copounId=copoun.id
+        }
+
+        const session = await payment({
+            stripe,
+            payment_method_types:['card'],
+            mode:"payment",
+            customer_email:req.userInfo.email,
+            metadata:{
+                orderId:order._id.toString()
+            },
+            success_url:`${req.protocol}://${req.headers.host}/orders/success/${order._id}`,
+            cancel_url:`${req.protocol}://${req.headers.host}/orders/cancel/${order._id}`,
+            line_items:order.products.map((product)=>{
+                return {
+                        
+                        price_data:{
+                            currency:"egp",
+                            product_data:{
+                                name:product.title
+                            },
+                            unit_amount:product.price*100
+                        },
+                        quantity:product.quantatity,
+                    }
+                }),
+                discounts:req.body?.copoun?[{copoun:req.body.copounId}]:[]
+            })
+            res.status(201).json({msg:"done" , url:session.url , session})
+        }
+    
+
+
+
+
 
 
     res.status(201).json({msg:"done" , order})
