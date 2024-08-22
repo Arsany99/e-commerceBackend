@@ -12,7 +12,7 @@ router.put('/cancelorder/:id',validation(cancelorderVlidator),auth([systemRole.a
 
 
 
-app.post('/webhook', express.raw({type: 'application/json'}), webHook )
+router.post('/webhook', express.raw({type: 'application/json'}), webHook )
 
 
 
