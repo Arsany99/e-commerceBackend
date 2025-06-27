@@ -90,9 +90,10 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
 
 //==========================================get category=============================//
 export const getCategory = asyncHandler(async (req, res, next) => {
-    const categories = await categoryModel.find({}).populate([
-        {path:"subcategories"}
-    ])
+    const categories = await categoryModel.find({})
+    //     .populate([
+    //     {path:"subcategories"}
+    // ])
     // const list =[]
     // for (const category of categories) {
     //     const subCategory = await subCategoryModel.find({category:category._id})
